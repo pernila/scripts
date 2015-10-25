@@ -7,21 +7,21 @@ echo 'Syyua implementation'
 
 if [ -e "/usr/sbin/pkg" ]
 then
-	echo'found pkg'
+	echo 'found pkg'
 else
 	pkg
 fi
 
 if [ -e "/var/db/portsnap/INDEX" ]
 then
-	echo'ports extracted'
+	echo 'ports extracted'
 else
 	portsnap fetch extract
 fi
 
 if [ -e "/usr/local/sbin/portmaster" ]
 then
-	echo'portmaster installed'
+	echo 'portmaster installed'
 else
 	pkg install portmaster
 fi
