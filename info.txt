@@ -1,0 +1,24 @@
+   
+Desktop/server/Laptop hardware info 
+   
+   
+Model   
+DEBUG: smbios.system.maker=[LENOVO]
+DEBUG: smbios.system.product=[20BE0086MS]
+DEBUG: smbios.system.version=[ThinkPad T540p]
+   
+GPU  
+vgapci0: <VGA-compatible display> port 0x4000-0x407f mem 0xf0000000-0xf0ffffff,0xc0000000-0xcfffffff,0xd0000000-0xd1ffffff irq 16 at device 0.0 on pci1
+vgapci1: <VGA-compatible display> port 0x5000-0x503f mem 0xf1000000-0xf13fffff,0xe0000000-0xefffffff irq 16 at device 2.0 on pci0
+agp0: <Haswell mobile GT2> on vgapci1
+agp0: aperture size is 256M, detected 32764k stolen memory
+vgapci1: Boot video device
+sc0: VGA <16 virtual consoles, flags=0x300>
+vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff on isa0
+   
+CPU  
+CPU: Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz (2394.51-MHz K8-class CPU)
+   
+xrandr  
+   
+   
