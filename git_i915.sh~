@@ -15,7 +15,6 @@ then
 	cd ~/source/freebsd-base-graphics
 	#git status
 	#git pull
-	#git show
 	echo 'then'
 else
 #	git clone -b drm-i915-update-38 https://github.com/freebsd/freebsd-base-graphics.git
@@ -33,6 +32,7 @@ fi
 
 #Set the next booting kernel to be kernel.i915
 #nextboot -k kernel.i915
+
 
 
 echo 'Done '

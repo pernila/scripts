@@ -36,7 +36,7 @@ scripts]$ cat hardware_info.sh >> X_debugger_2.sh
 [scripts]$ cat load_i915kms_then_log.sh >> X_debugger_2.sh 
 
 here needs to be a pause?
-implement with sleep?
+
 
 [scripts]$ cat startx_then_log.sh  >> X_debugger_2.sh 
 

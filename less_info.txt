@@ -1,3 +1,0 @@
-DEBUG: smbios.system.maker=[LENOVO]
-DEBUG: smbios.system.product=[20BE0086MS]
-DEBUG: smbios.system.version=[ThinkPad T540p]
