@@ -4,7 +4,8 @@
 #Pacman and yaourt inspired tool
 
 	echo ''
-echo 'Syyua implementation'
+echo 'Syyua update script'
+echo 'inspired by pacman and yaourt'
 	echo ''
 
 
@@ -27,7 +28,7 @@ then
 	echo ''
 else
 	echo ''
-	echo 'portsnap fetch extract'
+	echo 'install portsnap and portst'
 	portsnap fetch extract
 	echo ''
 fi
@@ -48,7 +49,7 @@ fi
 if [ -e "/etc/defaults/pcbsd" ]
 then
 	echo ''
-	echo 'PCBSD'
+	echo 'running PCBSD'
 	echo ''
 	echo '/usr/local/bin/pc-updatemanager check'
 	/usr/local/bin/pc-updatemanager check
@@ -69,14 +70,14 @@ then
 	echo 'portsnap fetch update'
 	portsnap fetch update
 	echo ''
-	echo 'Newer pkgs from ports:'
+	echo 'Ports has newer versions of the following software:'
 	portmaster -L | grep New
 	echo ''
 
 elif [ -e "/etc/defaults/trueos" ]
 then
 	echo ''
-	echo 'TrueOS'
+	echo 'running TrueOS'
 	echo ''
 	echo '/usr/local/bin/pc-updatemanager check'
 	/usr/local/bin/pc-updatemanager check
@@ -97,13 +98,13 @@ then
 	echo 'portsnap fetch update'
 	portsnap fetch update
 	echo ''
-	echo 'Newer pkgs from ports:'
+	echo 'Ports has newer versions of the following software:'
 	portmaster -L | grep New
 	echo ''
 
 else
 	echo ''
-	echo 'FreeBSD'
+	echo 'running FreeBSD'
 	echo ''
 	echo 'freebsd-update fetch'
         freebsd-update fetch
@@ -125,11 +126,11 @@ echo ''
 	echo 'portsnap fetch update'
 	portsnap fetch update
 	echo ''
-	echo 'Newer pkgs from ports:'
+	echo 'Ports has newer versions of the following software:'
 	portmaster -L | grep New
 	echo ''
 fi
 
 echo ''
-echo 'Done'
+echo 'Syyua finished'
 echo ''
