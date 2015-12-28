@@ -4,13 +4,13 @@ echo '  '
 echo 'Get HW info and collect all the logs (that are not empty) to an index'
 echo '  ' 
 
-mkdir -p  ~/logs_hw
-LOGS=~/logs_hw
+mkdir -p  ~/Xlogs
+LOGS=~/Xlogs
 rm $LOGS/*.log
 rm $LOGS/*.txt
 
 echo ' ~~~  ' >> $LOGS/hardware_info.txt
-echo 'Desktop/server/Laptop hardware info ' >> $LOGS/hardware_info.txt
+echo 'Computer hardware info ' >> $LOGS/hardware_info.txt
 echo ' ~~~  ' >> $LOGS/hardware_info.txt
 
 #cpu
@@ -19,10 +19,12 @@ grep CPU: /var/run/dmesg.boot > $LOGS/cpu_info.log
 #gpu
 #Optimus / dual gpu setup?
 #check for all gpus seen by kernel
-grep -i 'vga\|agp' /var/run/dmesg.boot >  $LOGS/gpu_info.log
+grep -i 'vga\|agp' /var/run/dmesg.boot > $LOGS/gpu_info.log
 
 #xrandr
 echo 'xrandr: will give an error Cant open display here'
+echo 'if X is not running on the computer.'
+echo 'Try running startx '
 xrandr  > $LOGS/xrandr.log
 
 #Get information about system model and manufacturer
