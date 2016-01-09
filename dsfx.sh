@@ -2,26 +2,28 @@
 #
 echo '  ' 
 echo ' dsfx.sh - a Debugging Script For things relating to Xorg ' 
-echo ' versio 0.3 ' 
+echo ' versio 0.4 ' 
 echo ' Gathers hardware information and collects all relevant logs'
-echo ' to the folder ~/Xlogs_<date>'
-echo ' then tars everything to a single xlogs_<date>.txz file to the ~-folder' 
+echo ' to the folder ~/Xlogs_<date>.'
+echo ' Then tars everything to a single xlogs_<date>.txz file to the ~-folder.' 
+echo '  ' 
 echo '  ' 
 
 TIMESTAMP=$(date +"%Y.%m.%d_%H:%M:%S")
 
 if [ -d ~/Xlogs ]
 then 
-	echo 'Xlogs directory already found '
-	echo 'Creating a new folder'
+	echo ' Xlogs directory already found '
+	echo ' '
 	mkdir -p  ~/Xlogs_"$TIMESTAMP"
 	LOGS=~/Xlogs_"$TIMESTAMP"
 	echo $TIMESTAMP > $LOGS/date.info
+	echo 'Creating a new folder: ' "$LOGS"
 	echo ' '
 else
-	echo 'Creating Xlogs directory'
 	mkdir -p  ~/Xlogs
 	LOGS=~/Xlogs
+	echo 'Creating a new folder: ' "$LOGS"
 #	rm $LOGS/*.log #debugging
 #	rm $LOGS/*.info #debugging
 #	rm $LOGS/*.txt #debugging
@@ -40,11 +42,11 @@ grep CPU: /var/run/dmesg.boot > $LOGS/cpu_info.log
 #check for all gpus seen by kernel
 grep -i 'vga\|agp' /var/run/dmesg.boot > $LOGS/gpu_info.log
 
-#xrandr
-echo 'xrandr: will give an error Cant open display here'
-echo 'if X is not running on the computer.'
-echo 'Try running startx '
+echo '     info: if X is not running on the computer'
+echo '           xrandr will give an error "Cant open display"'
+echo '           Try running startx '
 xrandr  > $LOGS/xrandr.log 2>&1
+echo ' '
 
 #Get information about system model and manufacturer
 grep -i smbio /var/log/bsdinstall_log > $LOGS/model_manufacturer.log
@@ -67,28 +69,24 @@ echo 'xrandr  ' >> $LOGS/hardware_info.txt
 cat $LOGS/xrandr.log >> $LOGS/hardware_info.txt
 echo '   ' >> $LOGS/hardware_info.txt
 echo '   ' >> $LOGS/hardware_info.txt
-echo '  ' 
 
-#dmesg from boot
-cat /var/run/dmesg.boot > $LOGS/dmesg_boot.log
-echo 'boot dmesg logged '
-
-id -ur > $LOGS/script_run_as_user_id.log
-
-echo 'Is Xorg installed on the system?'
-echo 'If not install with'
-echo ' pkg install xorg-minimal'
+echo '     info: Is Xorg installed on the system?'
+echo '           If not install with'
+echo '            #pkg install xorg-minimal'
 
 echo ' '
-echo 'No config for Xorg?'
-echo 'Create a basic config with (which you may want to edit a bit)'
-echo ' Xorg -configure'
+echo '     info: No config for Xorg?'
+echo '           Create a basic config with'
+echo '            #Xorg -configure'
+echo '           afterwards you may want to edit it a bit'
 echo ' '
-echo 'For example add the section below.'
-echo 'It allows killing Xorg with ctrl+alt+del'
-echo ' Section    "ServerFlags" '
-echo ' Option     "DontZap" "false"'
-echo ' EndSection'
+echo '           eg. adding this to your xorg.conf'
+echo '           allows killing Xorg with ctrl+alt+del'
+echo ' '
+echo '      Section    "ServerFlags" '
+echo '      Option     "DontZap" "false"'
+echo '      EndSection'
+echo ' '
 
 cat /etc/X11/xorg.conf > $LOGS/xorg.conf.log 2>&1
 cat /usr/local/etc/X11/xorg.conf > $LOGS/xorg.conf.2.log 2>&1
@@ -98,7 +96,6 @@ echo 'xorg.conf(s) logged '
 
 cat /var/log/Xorg.0.log > $LOGS/Xorg.0.log 2>&1
 echo 'Xorg logs logged '
-echo ' '
 Xorg -version > $LOGS/Xorg_version.log 2>&1
 echo 'Xorg version logged '
 
@@ -110,6 +107,13 @@ echo 'users groups logged '
 
 #if getting complaints about permissions try to fix it with
 #pw groupmod video -m <your user>
+
+#dmesg from boot
+cat /var/run/dmesg.boot > $LOGS/dmesg_boot.log
+echo 'dmesg from boot logged '
+
+id -ur > $LOGS/script_run_as_user_id.log
+echo 'user id number running the script logged '
 
 #Check uname
 uname -a > $LOGS/uname_a.log
@@ -139,21 +143,21 @@ pkg info > $LOGS/list_of_pkgs.log
 echo 'installed pkgs logged '
 
 cat /etc/pkg/* > $LOGS/repositories.conf.log
-echo 'used repositories logged '
+echo 'used pkg repositories logged '
 echo ''
 
 echo 'Vanilla FreeBSD check'
 if [ -e "/etc/defaults/pcbsd" ]
 then
-	echo 'Seem to be running PCBSD'
-	echo 'Seem to be running PCBSD' > $LOGS/not_vanilla.info
+	echo ' You seem to be running PCBSD'
+	echo 'System seems to be running PCBSD' > $LOGS/not_vanilla.info
 
 elif [ -e "/etc/defaults/trueos" ]
 then
-	echo 'Seem to be running TrueOS'
-	echo 'Seem to be running TrueOS' > $LOGS/not_vanilla.info
+	echo ' You seem to be running TrueOS'
+	echo 'System seems to be running TrueOS' > $LOGS/not_vanilla.info
 else 
-	echo 'Seem to be running vanilla'
+	echo ' You seem to be running vanilla'
 fi
 
 echo ''
@@ -168,15 +172,16 @@ TARVAR=xlogs_"$TIMESTAMP".txz
 tar -cJf $TARVAR -C $LOGS .
 echo 'Done tarring the data'
 echo ' '
-echo 'Please submit your results to freebsd-x11@freebsd.org mailing list'
-echo 'Upload the results to https://gist.github.com or a similar service '
+echo ' Please submit your results to freebsd-x11@freebsd.org mailing list'
+echo ' eg. Upload the results to https://gist.github.com or a similar service '
 echo ' '
 echo '  If the driver is working in normal usage'
 echo '  Try doing something more demanding'
 
 echo ' '
-echo '  In the end of this .sh file'
-echo '  there is four different test scenarios.'
+echo '  At the end of this .sh file'
+echo '  there are four different test scenarios.'
+echo ' '
 
 #Examples of test cases
 #run this script after each scenario
