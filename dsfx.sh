@@ -1,17 +1,33 @@
 #!/bin/sh
 #
 echo '  ' 
-echo ' dsfx.sh - a Debugging Script For X ' 
-echo ' versio 0.1 ' 
+echo ' dsfx.sh - a Debugging Script For things relating to X ' 
+echo ' versio 0.3 ' 
 echo ' Gathers hardware information and collects all relevant logs to a folder ~/Xlogs_<date>'
+echo 'Finally it creates a xlogs_<date>.txz file of all of the logs to ~-folder ' 
 echo '  ' 
 
-mkdir -p  ~/Xlogs
-LOGS=~/Xlogs
-rm $LOGS/*.log
-rm $LOGS/*.txt
+TIMESTAMP=$(date +"%Y.%m.%d_%H:%M:%S")
 
-echo ' ~~~  ' >> $LOGS/hardware_info.txt
+if [ -d ~/Xlogs ]
+then 
+	echo 'Xlogs directory already found '
+	echo 'Creating a new folder'
+	mkdir -p  ~/Xlogs_"$TIMESTAMP"
+	LOGS=~/Xlogs_"$TIMESTAMP"
+	echo $TIMESTAMP > $LOGS/date.info
+	echo ' '
+else
+	echo 'Creating Xlogs directory'
+	mkdir -p  ~/Xlogs
+	LOGS=~/Xlogs
+#	rm $LOGS/*.log #debugging
+#	rm $LOGS/*.info #debugging
+#	rm $LOGS/*.txt #debugging
+	echo $TIMESTAMP > $LOGS/date.info
+	echo ' '
+fi
+
 echo 'Computer hardware info ' >> $LOGS/hardware_info.txt
 echo ' ~~~  ' >> $LOGS/hardware_info.txt
 
@@ -89,18 +105,27 @@ echo 'xrandr output logged '
 
 #Check the video group (for user?)
 ls -la /dev/dri > $LOGS/dri_permissions.log
-cat /etc/groups > $LOGS/groups.log
+cat /etc/group > $LOGS/group.log
 echo 'users groups logged '
 
 #if getting complaints about permissions try to fix it with
 #pw groupmod video -m <your user>
 
-#Check kernel version
-uname -a > $LOGS/kernel_version.log
-echo 'kernel version logged '
+#Check uname
+uname -a > $LOGS/uname.log
+echo 'uname -a logged '
 
-#Check userland version
-freebsd-version -uk > $LOGS/freebsd_version.log
+#Check rc.conf
+cat /etc/rc.conf > $LOGS/rc.conf.log
+echo 'rc.conf logged '
+
+#Check userland versiona
+
+echo 'freebsd_version -u' > $LOGS/freebsd_version.log
+freebsd-version -u >> $LOGS/freebsd_version.log
+echo 'freebsd_version -k' >> $LOGS/freebsd_version.log
+freebsd-version -k >> $LOGS/freebsd_version.log
+
 echo 'freebsd_version logged '
 
 cat /boot/loader.conf > $LOGS/loader.conf.log
@@ -115,9 +140,9 @@ echo 'messages logged '
 pkg info > $LOGS/list_of_pkgs.log
 echo 'installed pkgs logged '
 
-cd ~/source/freebsd-base-graphics
-git show > $LOGS/git_show.log
-echo 'git show logged '
+#cd ~/source/freebsd-base-graphics
+#git show > $LOGS/git_show.log
+#echo 'git show logged '
 
 
 #Examples of test cases
@@ -155,5 +180,12 @@ echo 'git show logged '
 
 echo 'Done gathering the data'
 echo ' '
+echo 'Tarring the data'
+TARVAR=xlogs_"$TIMESTAMP".txz
+TARDIR="$LOGS"/*
+tar -cJf $TARVAR -C $LOGS .
+echo 'Done tarring the data'
+echo ' '
 echo 'Please submit your results to freebsd-x11@freebsd.org mailinglist'
 echo 'Upload the results to https://gist.github.com or any similar service '
+
