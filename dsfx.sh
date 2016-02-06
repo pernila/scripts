@@ -2,7 +2,7 @@
 #
 echo '  ' 
 echo ' dsfx.sh - a Debugging Script For things relating to Xorg ' 
-echo ' versio 0.4 ' 
+echo ' versio 0.4.1 ' 
 echo ' Gathers hardware information and collects all relevant logs'
 echo ' to the folder ~/Xlogs_<date>.'
 echo ' Then tars everything to a single xlogs_<date>.txz file to the ~-folder.' 
