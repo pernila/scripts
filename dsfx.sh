@@ -9,7 +9,7 @@ echo ' Then tars everything to a single xlogs_<date>.txz file to the ~-folder.'
 echo '  ' 
 echo '  ' 
 
-TIMESTAMP=$(date +"%Y.%m.%d_%H:%M:%S")
+TIMESTAMP=$(date +"%Y.%m.%d_%H-%M-%S")
 
 if [ -d ~/Xlogs ]
 then 
@@ -89,9 +89,9 @@ echo '      EndSection'
 echo ' '
 
 cat /etc/X11/xorg.conf > $LOGS/xorg.conf.log 2>&1
-cat /usr/local/etc/X11/xorg.conf > $LOGS/xorg.conf.2.log 2>&1
-cat /usr/local/etc/X11/xorg.conf.d/xorg.conf > $LOGS/xorg.conf.3.log 2>&1
-cat /usr/local/etc/X11/xorg.conf.d/* > $LOGS/xorg.conf.4.log 2>&1
+cat /usr/local/etc/X11/xorg.conf > $LOGS/usr_xorg.conf.log 2>&1
+cat /usr/local/etc/X11/xorg.conf.d/xorg.conf > $LOGS/usr_xorg.d.conf.log 2>&1
+cat /usr/local/etc/X11/xorg.conf.d/* > $LOGS/usr_xorg.d_star.log 2>&1
 echo 'xorg.conf(s) logged '
 
 cat /var/log/Xorg.0.log > $LOGS/Xorg.0.log 2>&1
@@ -135,9 +135,12 @@ cat /boot/loader.conf > $LOGS/loader.conf.log
 echo 'loader.conf logged '
 cat /etc/sysctl.conf > $LOGS/sysctl.conf.log
 echo 'sysctl.conf logged '
-pciconf -lv > $LOGS/pciconf_lv.log
-echo 'pciconf -lv output logged '
-cat /var/log/messages > $LOGS/messages.log
+pciconf -lvbce > $LOGS/pciconf_lvbce.log
+echo 'pciconf -lvbce output logged '
+devinfo -vr > $LOGS/devinfo_vr.log
+echo 'devinf -vr output logged '
+cat /var/log/messages > $LOGS/var_log_messages.log
+cat /var/log/messages |grep ":\[drm\[:]]" > $LOGS/var_log_messages_grep_drm.log
 echo 'messages logged '
 pkg info > $LOGS/list_of_pkgs.log
 echo 'installed pkgs logged '
@@ -165,10 +168,11 @@ echo 'Done gathering the data'
 #echo ' '
 #echo 'Changing username to <user>' TODO
 #echo 'and the hostname to <host>' TODO 
+#echo 'problem being if these strings are located elsewhere in the logs' TODO 
 
 echo ' '
 echo 'Tarring the data'
-TARVAR=xlogs_"$TIMESTAMP".txz
+TARVAR="$TIMESTAMP"_xlogs.txz
 tar -cJf $TARVAR -C $LOGS .
 echo 'Done tarring the data'
 echo ' '
