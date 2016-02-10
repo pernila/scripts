@@ -173,7 +173,7 @@ echo 'Done gathering the data'
 echo ' '
 echo 'Tarring the data'
 TARVAR="$TIMESTAMP"_xlogs.txz
-tar -cJf $TARVAR -C $LOGS .
+tar -cJf $TARVAR -C $LOGS ~/Xlogs
 echo 'Done tarring the data'
 echo ' '
 echo ' Please submit your results to freebsd-x11@freebsd.org mailing list'
