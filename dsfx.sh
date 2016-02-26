@@ -220,3 +220,6 @@ echo ' '
 #  test video playback afgter suspend 
 # test suspend & resume with additional monitor
 
+#
+# todo give a switch -c and add a comment to the end of folder/tgz file
+#
