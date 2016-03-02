@@ -46,6 +46,7 @@ echo '     info: if X is not running on the computer'
 echo '           xrandr will give an error "Cant open display"'
 echo '           Try running startx '
 xrandr  > $LOGS/xrandr.log 2>&1
+xrandr --verbose > $LOGS/xrandr_verbose.log 2>&1
 echo ' '
 
 #Get information about system model and manufacturer
