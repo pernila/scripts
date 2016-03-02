@@ -222,5 +222,8 @@ echo ' '
 # test suspend & resume with additional monitor
 
 #
-# todo give a switch -c and add a comment to the end of folder/tgz file
+# TODO give a switch -c and add a comment to the end of folder/tgz file
+# TODO give a switch -v to add all the current info. Without the switch no output.
+# TODO 
 #
+
