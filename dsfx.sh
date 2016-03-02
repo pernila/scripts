@@ -102,7 +102,8 @@ echo 'Xorg version logged '
 
 #Check the video group
 #(this caused some issues mixing 10.x and 11.0 userland and kernel)
-ls -la /dev/dri > $LOGS/dri_permissions.log 2>&1
+echo 'ls -la /dev/dri ' > $LOGS/dri.permissions.log
+ls -la /dev/dri >> $LOGS/dri_permissions.log 2>&1
 cat /etc/group > $LOGS/group.log
 echo 'users groups logged '
 
@@ -141,7 +142,8 @@ echo 'pciconf -lvbce output logged '
 devinfo -vr > $LOGS/devinfo_vr.log
 echo 'devinf -vr output logged '
 cat /var/log/messages > $LOGS/var_log_messages.log
-cat /var/log/messages |grep ":\[drm\[:]]" > $LOGS/var_log_messages_grep_drm.log
+echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log
+cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log
 echo 'messages logged '
 pkg info > $LOGS/list_of_pkgs.log
 echo 'installed pkgs logged '
