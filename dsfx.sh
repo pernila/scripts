@@ -51,6 +51,8 @@ echo ' '
 
 #Get information about system model and manufacturer
 grep -i smbio /var/log/bsdinstall_log > $LOGS/model_manufacturer.log 2>&1
+#cat /var/log/bsdinstall_log > $LOGS/bsdinstall.log 2>&1
+#cat /root/pc-sysinstall.log > $LOGS/pc-sysinstall.log 2>&1
 
 #Fill up HW info file
 echo '   ' >> $LOGS/hardware_info.txt
