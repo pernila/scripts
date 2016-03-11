@@ -35,12 +35,12 @@ echo 'Computer hardware info ' >> $LOGS/hardware_info.txt
 echo ' ~~~  ' >> $LOGS/hardware_info.txt
 
 #cpu
-grep CPU: /var/run/dmesg.boot > $LOGS/cpu_info.log
+grep CPU: /var/run/dmesg.boot > $LOGS/cpu_info.log 2>&1
 
 #gpu
 #Optimus / dual gpu setup?
 #check for all gpus seen by kernel
-grep -i 'vga\|agp' /var/run/dmesg.boot > $LOGS/gpu_info.log
+grep -i 'vga\|agp' /var/run/dmesg.boot > $LOGS/gpu_info.log 2>&1
 
 echo '     info: if X is not running on the computer'
 echo '           xrandr will give an error "Cant open display"'
@@ -50,24 +50,26 @@ xrandr --verbose > $LOGS/xrandr_verbose.log 2>&1
 echo ' '
 
 #Get information about system model and manufacturer
-grep -i smbio /var/log/bsdinstall_log > $LOGS/model_manufacturer.log
+grep -i smbio /var/log/bsdinstall_log > $LOGS/model_manufacturer.log 2>&1
+#cat /var/log/bsdinstall_log > $LOGS/bsdinstall.log 2>&1
+#cat /root/pc-sysinstall.log > $LOGS/pc-sysinstall.log 2>&1
 
 #Fill up HW info file
 echo '   ' >> $LOGS/hardware_info.txt
 echo 'System model and type:   ' >> $LOGS/hardware_info.txt
-awk 'NR > 1 {print $1}' RS='[' FS=']' $LOGS/model_manufacturer.log >> $LOGS/hardware_info.txt
+awk 'NR > 1 {print $1}' RS='[' FS=']' $LOGS/model_manufacturer.log >> $LOGS/hardware_info.txt 2>&1
 echo '   ' >> $LOGS/hardware_info.txt
 
 echo 'GPU:  ' >> $LOGS/hardware_info.txt
-cat $LOGS/gpu_info.log >> $LOGS/hardware_info.txt
+cat $LOGS/gpu_info.log >> $LOGS/hardware_info.txt 2>&1
 echo '   ' >> $LOGS/hardware_info.txt
 
 echo 'CPU:  ' >> $LOGS/hardware_info.txt
-cat $LOGS/cpu_info.log >> $LOGS/hardware_info.txt
+cat $LOGS/cpu_info.log >> $LOGS/hardware_info.txt 2>&1
 echo '   ' >> $LOGS/hardware_info.txt
 
 echo 'xrandr  ' >> $LOGS/hardware_info.txt
-cat $LOGS/xrandr.log >> $LOGS/hardware_info.txt
+cat $LOGS/xrandr.log >> $LOGS/hardware_info.txt 2>&1
 echo '   ' >> $LOGS/hardware_info.txt
 echo '   ' >> $LOGS/hardware_info.txt
 
@@ -89,10 +91,16 @@ echo '      Option     "DontZap" "false"'
 echo '      EndSection'
 echo ' '
 
-cat /etc/X11/xorg.conf > $LOGS/xorg.conf.log 2>&1
-cat /usr/local/etc/X11/xorg.conf > $LOGS/usr_xorg.conf.log 2>&1
-cat /usr/local/etc/X11/xorg.conf.d/xorg.conf > $LOGS/usr_xorg.d.conf.log 2>&1
-cat /usr/local/etc/X11/xorg.conf.d/* > $LOGS/usr_xorg.d_star.log 2>&1
+echo 'cat /etc/X11/xorg.conf' > $LOGS/xorg.conf.log
+cat /etc/X11/xorg.conf >> $LOGS/xorg.conf.log 2>&1
+echo 'cat /etc/X11/xorg.conf*' > $LOGS/xorg.conf_star.log
+cat /etc/X11/xorg.conf* >> $LOGS/xorg.conf_star.log 2>&1
+echo 'cat /usr/local/etc/X11/xorg.conf' > $LOGS/usr_xorg.conf.log
+cat /usr/local/etc/X11/xorg.conf >> $LOGS/usr_xorg.conf.log 2>&1
+echo 'cat /usr/local/etc/X11/xorg.conf.d/xorg.conf' > $LOGS/usr_xorg.d.conf.log
+cat /usr/local/etc/X11/xorg.conf.d/xorg.conf >> $LOGS/usr_xorg.d.conf.log 2>&1
+echo 'cat /usr/local/etc/X11/xorg.conf.d/*' > $LOGS/usr_xorg.d_star.log 
+cat /usr/local/etc/X11/xorg.conf.d/* >> $LOGS/usr_xorg.d_star.log 2>&1
 echo 'xorg.conf(s) logged '
 
 cat /var/log/Xorg.0.log > $LOGS/Xorg.0.log 2>&1
@@ -104,51 +112,52 @@ echo 'Xorg version logged '
 #(this caused some issues mixing 10.x and 11.0 userland and kernel)
 echo 'ls -la /dev/dri ' > $LOGS/dri.permissions.log
 ls -la /dev/dri >> $LOGS/dri_permissions.log 2>&1
-cat /etc/group > $LOGS/group.log
+cat /etc/group > $LOGS/group.log 2>&1
 echo 'users groups logged '
 
 #if getting complaints about permissions try to fix it with
 #pw groupmod video -m <your user>
 
 #dmesg from boot
-cat /var/run/dmesg.boot > $LOGS/dmesg_boot.log
+cat /var/run/dmesg.boot > $LOGS/dmesg_boot.log 2>&1
 echo 'dmesg from boot logged '
 
-id -ur > $LOGS/script_run_as_user_id.log
+id -ur > $LOGS/script_run_as_user_id.log 2>&1
 echo 'user id number running the script logged '
 
 #Check uname
-uname -a > $LOGS/uname_a.log
+uname -a > $LOGS/uname_a.log 2>&1
 echo 'uname -a logged '
 
-cat /etc/rc.conf > $LOGS/rc.conf.log
+cat /etc/rc.conf > $LOGS/rc.conf.log 2>&1
 echo 'rc.conf logged '
 cat /etc/loader.conf > $LOGS/loader.conf.log 2>&1
 echo 'loader.conf logged '
 
 #Check the userland version
 echo 'freebsd_version -u' > $LOGS/freebsd_version.log
-freebsd-version -u >> $LOGS/freebsd_version.log
+freebsd-version -u >> $LOGS/freebsd_version.log 2>&1
 echo 'freebsd_version -k' >> $LOGS/freebsd_version.log
-freebsd-version -k >> $LOGS/freebsd_version.log
+freebsd-version -k >> $LOGS/freebsd_version.log 2>&1
 echo 'freebsd_version logged '
 
-cat /boot/loader.conf > $LOGS/loader.conf.log
+cat /boot/loader.conf > $LOGS/loader.conf.log 2>&1
 echo 'loader.conf logged '
-cat /etc/sysctl.conf > $LOGS/sysctl.conf.log
+cat /etc/sysctl.conf > $LOGS/sysctl.conf.log 2>&1
 echo 'sysctl.conf logged '
-pciconf -lvbce > $LOGS/pciconf_lvbce.log
+pciconf -lvbce > $LOGS/pciconf_lvbce.log 2>&1
 echo 'pciconf -lvbce output logged '
-devinfo -vr > $LOGS/devinfo_vr.log
+devinfo -vr > $LOGS/devinfo_vr.log 2>&1
 echo 'devinf -vr output logged '
-cat /var/log/messages > $LOGS/var_log_messages.log
-echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log
-cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log
+cat /var/log/messages > $LOGS/var_log_messages.log  2>&1
+echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log 2>&1
+cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log 2>&1
 echo 'messages logged '
-pkg info > $LOGS/list_of_pkgs.log
+pkg info > $LOGS/list_of_pkgs.log  2>&1
 echo 'installed pkgs logged '
 
-cat /etc/pkg/* > $LOGS/repositories.conf.log
+cat /etc/pkg/* > $LOGS/repositories.conf.log 2>&1
+cat /usr/local/etc/pkg/repos/* > $LOGS/repositories_usr_local.conf.log 2>&1
 echo 'used pkg repositories logged '
 echo ''
 
@@ -176,7 +185,7 @@ echo 'Done gathering the data'
 echo ' '
 echo 'Tarring the data'
 TARVAR="$TIMESTAMP"_xlogs.txz
-tar -cJf $TARVAR -C $LOGS ~/Xlogs
+tar -cJf $TARVAR -C $LOGS ~/Xlogs 2>&1
 echo 'Done tarring the data'
 echo ' '
 echo ' Please submit your results to freebsd-x11@freebsd.org mailing list'
