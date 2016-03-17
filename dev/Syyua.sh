@@ -3,6 +3,8 @@
 #Syyua.sh version 0,3
 #Pacman and yaourt inspired tool
 
+#TODO another switch to check for CURRENT, then skip freebsd-update
+
 	echo ''
 echo 'Syyua update script'
 echo 'inspired by pacman and yaourt'
