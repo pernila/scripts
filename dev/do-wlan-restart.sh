@@ -12,7 +12,10 @@ sleep 1
 
 dhclient wlan0
 
+sleep 2
 
+basic-network-info.sh
 
-
+echo ''
+echo 'restart script end'
 
