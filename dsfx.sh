@@ -5,7 +5,7 @@
 VERSION=' version 0.4.2 ' 
 # Gathers hardware information and collects all relevant logs
 # to the folder ~/Xlogs_<date>.'
-# Then tars everything to a single xlogs_<date>.txz file to the ~-folder.
+# Then tars everything to a single <date>_xlogs.txz file to the ~-folder.
 
 TIMESTAMP=$(date +"%Y.%m.%d_%H-%M-%S")
 
@@ -49,6 +49,8 @@ echo '  e.g. libGL error: failed to open drm device: Permission denied'
 echo '       libGL error: failed to load driver: <driver>'
 echo 'fix with adding your username to the video group'
 echo ' >pw groupmod video -m <your username>'
+echo ' '
+	exit;
 
 	elif [ "$1" == "-h" -o "-help" == "$1" -o "$1" == "--help" ]; then
 		shift;
@@ -61,6 +63,12 @@ This script gathers hardware information and collects all relevant logs to the f
 Then tars everything to a single xlogs_<date>.txz file to the ~ folder.
 
 Available arguments:
+
+-a		--add-comment
+--add-comment	Add a custom comment to the txz file.
+		e.g. -a kernel_r296116 would create:
+		<date>_xlogs_kernel_r296116.txz
+
 -u		--usecases
 --usecases	Prints out use cases to stress the GPU and it's driver
 
@@ -74,7 +82,8 @@ Available arguments:
 --verbose	Enables verbose mode
 
 -V		--Version
---Version	Prints the script version"
+--Version	Prints the script version
+"
 		exit;
 
 	elif [ "$1" == "-u" -o "-usecases" == "$1" -o "$1" == "--usecases" ]; then
@@ -112,12 +121,15 @@ Arto Pekkanen\'s test scenario 4#
 
   test video playback after suspend 
 
- test suspend & resume with additional monitor"
+ test suspend & resume with additional monitor
+"
 		exit;
 	
 	elif [ "$1" == "-a" -o "-add-comment" == "$1" -o "$1" == "--add-comment" ]; then
+		COMMENT=$2
+		COMMENTFLAG=ON
+		echo 'comment argument is ' $COMMENT
 		shift;
-		echo "here the next variable is the comment"
 	else
 		#if argument is any other, skip it.
 		shift;
@@ -300,57 +312,34 @@ fi
 echo ''
 if [ "$DEBUG" = ON ]; then
 echo 'Done gathering the data'
-#echo ' '
-#echo 'Changing username to <user>' TODO
-#echo 'and the hostname to <host>' TODO 
-#echo 'problem being if these strings are located elsewhere in the logs' TODO 
+fi
+
+#Changing all usernames to <user> TODO
+#and the hostname to <host> TODO 
+#problem being if these strings are located elsewhere in the logs TODO 
 
 echo ' '
 if [ "$DEBUG" = ON ]; then
 echo 'Tarring the data'
-TARVAR="$TIMESTAMP"_xlogs.txz
+fi
+
+if [ "$COMMENTFLAG" = ON ]; then
+	TARVAR="$TIMESTAMP"_xlogs_"$COMMENT".txz
+else
+	TARVAR="$TIMESTAMP"_xlogs.txz
+fi
+
 tar -cJf $TARVAR -C $LOGS ~/Xlogs 2>&1
+
 if [ "$DEBUG" = ON ]; then
 echo 'Done tarring the data'
 echo ' '
+fi
+
 if [ "$DEBUG" = ON ]; then
 echo ' Please submit your results to freebsd-x11@freebsd.org mailing list'
 echo ' eg. Upload the results to https://gist.github.com or a similar service '
 echo ' '
 echo '  If the driver is working in normal usage'
 echo '  Try doing something more demanding'
-
-
-#Examples of test cases
-#run this script after each scenario
-#to gather the relevant logs
-
-#Arto Pekkanen's test scenario 1#
-# startx with normal user
-# 
-
-#Arto Pekkanen's test scenario 2#
-# boot with loader drm.debug=3 and i915kms_load="YES"
-# startx as a normal user
-#
-
-#Arto Pekkanen's test scenario 3#
-# boot with loader drm.debug=3 and do NOT load i915kms
-# switch to a non-console TTY
-# test suspend to RAM (acpciconf -s 3) and resume
-#  test video playback afgter suspend 
-# test suspend & resume via X11 session
-#  test video playback afgter suspend 
-# test suspend & resume with additional monitor
-#  test video playback afgter suspend 
-
-
-#Arto Pekkanen's test scenario 4#
-# boot with loader drm.debug=3 and do NOT load i915kms
-# switch to a non-console TTY
-# test suspend to RAM (acpciconf -s 3) and resume
-#  test video playback afgter suspend 
-# test suspend & resume via X11 session
-#  test video playback afgter suspend 
-# test suspend & resume with additional monitor
-
+fi
