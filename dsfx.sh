@@ -142,9 +142,11 @@ then
 		echo ' Xlogs directory already found '
 		echo ''
 	fi
+
 	mkdir -p  ~/Xlogs_"$TIMESTAMP"
 	LOGS=~/Xlogs_"$TIMESTAMP"
 	echo $TIMESTAMP > $LOGS/date.info
+
 	if [ "$DEBUG" = ON ]; then
 		echo 'Creating a new folder: ' "$LOGS"
 		echo ' '
@@ -152,6 +154,7 @@ then
 else
 	mkdir -p  ~/Xlogs
 	LOGS=~/Xlogs
+
 	if [ "$DEBUG" = ON ]; then
 		echo 'Creating a new folder: ' "$LOGS"
 	fi
@@ -178,7 +181,7 @@ grep -i smbio /var/log/bsdinstall_log > $LOGS/model_manufacturer.log 2>&1
 #cat /var/log/bsdinstall_log > $LOGS/bsdinstall.log 2>&1
 #cat /root/pc-sysinstall.log > $LOGS/pc-sysinstall.log 2>&1
 
-#Fill up HW info file
+#Fill up HW info files
 echo '   ' >> $LOGS/hardware_info.txt
 echo 'System model and type:   ' >> $LOGS/hardware_info.txt
 awk 'NR > 1 {print $1}' RS='[' FS=']' $LOGS/model_manufacturer.log >> $LOGS/hardware_info.txt 2>&1
@@ -245,16 +248,22 @@ fi
 
 #Check uname
 uname -a > $LOGS/uname_a.log 2>&1
+
 if [ "$DEBUG" = ON ]; then
 	echo 'uname -a logged '
 fi
 
 cat /etc/rc.conf > $LOGS/rc.conf.log 2>&1
+
 if [ "$DEBUG" = ON ]; then
-echo 'rc.conf logged '
+	echo 'rc.conf logged '
+fi
+
 cat /etc/loader.conf > $LOGS/loader.conf.log 2>&1
+
 if [ "$DEBUG" = ON ]; then
-echo 'loader.conf logged '
+	echo 'loader.conf logged '
+fi
 
 #Check the userland version
 echo 'freebsd_version -u' > $LOGS/freebsd_version.log
@@ -263,55 +272,74 @@ echo 'freebsd_version -k' >> $LOGS/freebsd_version.log
 freebsd-version -k >> $LOGS/freebsd_version.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'freebsd_version logged '
+fi
 
 cat /boot/loader.conf > $LOGS/loader.conf.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'loader.conf logged '
+fi
+
 cat /etc/sysctl.conf > $LOGS/sysctl.conf.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'sysctl.conf logged '
+fi
+
 pciconf -lvbce > $LOGS/pciconf_lvbce.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'pciconf -lvbce output logged '
+fi
+
 devinfo -vr > $LOGS/devinfo_vr.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'devinf -vr output logged '
+fi
+
 cat /var/log/messages > $LOGS/var_log_messages.log  2>&1
 echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log 2>&1
 cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo '/var/log/messages logged '
+fi
+
 pkg info > $LOGS/list_of_pkgs.log  2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'installed pkgs logged '
+fi
 
 cat /etc/pkg/* > $LOGS/repositories.conf.log 2>&1
 cat /usr/local/etc/pkg/repos/* > $LOGS/repositories_usr_local.conf.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'used pkg repositories logged '
 echo ''
+fi
 
 if [ "$DEBUG" = ON ]; then
 echo 'Vanilla FreeBSD check'
-if [ -e "/etc/defaults/pcbsd" ]
-then
-if [ "$DEBUG" = ON ]; then
-	echo ' You seem to be running PCBSD'
-	echo 'System seems to be running PCBSD' > $LOGS/not_vanilla.info
-
-elif [ -e "/etc/defaults/trueos" ]
-then
-if [ "$DEBUG" = ON ]; then
-	echo ' You seem to be running TrueOS'
-	echo 'System seems to be running TrueOS' > $LOGS/not_vanilla.info
-else 
-if [ "$DEBUG" = ON ]; then
-	echo ' You seem to be running vanilla'
 fi
 
-echo ''
+if [ -e "/etc/defaults/pcbsd" ]
+then
+		if [ "$DEBUG" = ON ]; then
+			echo ' You seem to be running PCBSD'
+		fi
+	echo 'System seems to be running PCBSD' > $LOGS/not_vanilla.info
+
+elif [ -e "/etc/defaults/trueos" ]; then
+
+		if [ "$DEBUG" = ON ]; then
+			echo ' You seem to be running TrueOS'
+		fi
+	echo 'System seems to be running TrueOS' > $LOGS/not_vanilla.info
+else 
+		if [ "$DEBUG" = ON ]; then
+			echo ' You seem to be running vanilla'
+	echo 'System seems to be running FreeBSD' > $LOGS/vanilla.info
+		fi
+fi
+
 if [ "$DEBUG" = ON ]; then
-echo 'Done gathering the data'
+	echo 'Done gathering the data'
+echo ''
 fi
 
 #Changing all usernames to <user> TODO
@@ -343,3 +371,6 @@ echo ' '
 echo '  If the driver is working in normal usage'
 echo '  Try doing something more demanding'
 fi
+
+#TODO tar error
+#TODO cat var
