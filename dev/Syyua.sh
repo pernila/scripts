@@ -1,6 +1,6 @@
 #!/bin/sh
 #tommi 24.10.2015
-#Syyua.sh version 0,3
+#Syyua.sh version 0.3.1
 #Pacman and yaourt inspired tool
 
 #TODO another switch to check for CURRENT, then skip freebsd-update
@@ -129,7 +129,7 @@ echo ''
 	portsnap fetch update
 	echo ''
 	echo 'Ports has newer versions of the following software:'
-	portmaster -L | grep New
+	portmaster -L | grep New |awk '{print $5}'
 	echo ''
 fi
 
