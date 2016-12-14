@@ -1,6 +1,6 @@
 #!/bin/sh
 #tommi 24.10.2015
-#Syyua.sh version 0.3.1
+#Syyua.sh version 0.4.0
 #Pacman and yaourt inspired tool
 
 #TODO another switch to check for CURRENT, then skip freebsd-update
@@ -133,6 +133,9 @@ echo ''
 	echo ''
 fi
 
+echo ''
+#List of locked packages
+pkg lock -l
 echo ''
 echo 'Syyua finished'
 echo ''
