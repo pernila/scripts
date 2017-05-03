@@ -345,10 +345,6 @@ if [ "$DEBUG" = ON ]; then
 echo ''
 fi
 
-#Changing all usernames to <user> TODO
-#and the hostname to <host> TODO 
-#problem being if these strings are located elsewhere in the logs TODO 
-
 echo ' '
 if [ "$DEBUG" = ON ]; then
 echo 'Tarring the data'
@@ -378,3 +374,7 @@ fi
 #TODO tar error
 #TODO cat var
 #TODO llvm related issues. E.g. check binary compilers, older installed llvm packages
+#TODO Changing all usernames to <user> TODO
+# and the hostname to <host> TODO 
+#TODO problem being if these strings are located elsewhere in the logs
+#TODO gather installed DRM and GPU driver versions to a new file
