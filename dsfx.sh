@@ -2,7 +2,7 @@
 #
 
 # dsfx.sh - a Debugging Script For things relating to Xorg
-VERSION=' version 0.4.2 ' 
+VERSION=' version 0.4.3 ' 
 # Gathers hardware information and collects all relevant logs
 # to the folder ~/Xlogs_<date>.'
 # Then tars everything to a single <date>_xlogs.txz file to the ~-folder.
@@ -160,6 +160,7 @@ else
 	fi
 
 	echo $TIMESTAMP > $LOGS/date.info
+	echo $VERSION > $LOGS/dsfx.sh_version.info
 	echo ' '
 fi
 
@@ -242,6 +243,8 @@ if [ "$DEBUG" = ON ]; then
 fi
 
 id -ur > $LOGS/script_run_as_user_id.log 2>&1
+echo ' ' >> $LOGS/script_run_as_user_id.log 2>&1
+echo 'user id 0 means the root user' >> $LOGS/script_run_as_user_id.log 2>&1
 if [ "$DEBUG" = ON ]; then
 	echo 'user id number running the script logged '
 fi
@@ -266,9 +269,9 @@ if [ "$DEBUG" = ON ]; then
 fi
 
 #Check the userland version
-echo 'freebsd_version -u' > $LOGS/freebsd_version.log
+echo 'freebsd_version -u = userland version' > $LOGS/freebsd_version.log
 freebsd-version -u >> $LOGS/freebsd_version.log 2>&1
-echo 'freebsd_version -k' >> $LOGS/freebsd_version.log
+echo 'freebsd_version -k = kernel version' >> $LOGS/freebsd_version.log
 freebsd-version -k >> $LOGS/freebsd_version.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo 'freebsd_version logged '
@@ -296,7 +299,7 @@ fi
 
 cat /var/log/messages > $LOGS/var_log_messages.log  2>&1
 echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log 2>&1
-cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log 2>&1
+cat /var/log/messages |grep '\[drm' >> $LOGS/var_log_messages_grep_drm.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo '/var/log/messages logged '
 fi
@@ -374,3 +377,4 @@ fi
 
 #TODO tar error
 #TODO cat var
+#TODO llvm related issues. E.g. check binary compilers, older installed llvm packages
