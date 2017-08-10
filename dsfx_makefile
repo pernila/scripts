@@ -2,32 +2,32 @@
 # $FreeBSD$
 
 PORTNAME=	dsfx
-PORTVERSION=	4.1
+PORTVERSION=	4.3
 PORTREVISION=	1
 CATEGORIES=	x11 devel x11
 XORG_CAT=	util
 
-[do not forget the trailing slash ("/")!
- if not using MASTER_SITE_* macros]
+#[do not forget the trailing slash ("/")!
+# if not using MASTER_SITE_* macros]
 MASTER_SITES=	${MASTER_SITE_XCONTRIB}
 MASTER_SITE_SUBDIR=	applications
 
 DISTNAME=	dsfx-$(PORTVERSION)
 
-[set this if the source is not in the standard ".tar.gz" form]
+#[set this if the source is not in the standard ".tar.gz" form]
 EXTRACT_SUFX=	.tar.Z
 
 
 MAINTAINER=	tommi.pernila+dsfx@iki.fi
-COMMENT=	Debugging script for the X Window System
+COMMENT=	Debugging Script For the X window system
 
-NO_ARCH= yes
+NO_ARCH=	yes
 
 LISENCE=	BSD
 
 IS_INTERACTIVE=	no
 
-[If it extracts to a directory other than ${DISTNAME}...]
+#[If it extracts to a directory other than ${DISTNAME}...]
 WRKSRC=
 
 
@@ -46,5 +46,3 @@ PLIST_FILES=	sbin/dsfx.sh
 # not neede as so little files
 #
 #sbin/dsfx.sh
-
-

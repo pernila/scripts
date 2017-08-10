@@ -378,3 +378,8 @@ fi
 # and the hostname to <host> TODO 
 #TODO problem being if these strings are located elsewhere in the logs
 #TODO gather installed DRM and GPU driver versions to a new file
+
+#TODO add these debuggin info outputs. 
+# memcontrol list
+# vidcontrol -i mode
+# vidcontrol -i adapter
