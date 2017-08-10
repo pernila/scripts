@@ -1,6 +1,6 @@
 #!/bin/sh
 #tommi 25.10.2015
-#jls_Syyua.sh version 0,1
+#jls_Syyua.sh version 0.2
 
 #This script should be run from the jail host
 # script updates the jail (freebsd-update fetch and install)
@@ -19,6 +19,8 @@
 #update paketti
 #-portmaster
 
+#or just use the native tools?
+#e.g. jexec?
 
 echo 'Syyua implementation for jails'
 

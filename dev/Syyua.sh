@@ -117,10 +117,10 @@ else
 
 echo ''
 	echo ''
-	echo 'pkg update'
+	echo 'pkg update -q'
 	pkg update
 	echo ''
-	echo 'pkg upgrade'
+	echo 'pkg upgrade -q'
 	pkg upgrade
 	echo ''
 
