@@ -11,7 +11,7 @@ pkg audit -F $(freebsd-version -u | sed 's,^,FreeBSD-,;s,-RELEASE-p,_,;s,-RELEAS
 #pkg audit -F FreeBSD-11.1_6 |grep -v 'up-to-date'
 
 echo ''
-echo 'Vulnerable packages in ports:'
+echo 'Vulnerable ports installed:'
 pkg audit | grep vulnerable | sort -u | awk '{print $1}'
 
 #just list vulnerable package names nothing else
