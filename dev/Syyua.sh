@@ -1,6 +1,6 @@
 #!/bin/sh
 #tommi 24.10.2015
-#Syyua.sh version 0.4.0
+#Syyua.sh version 0.5.0
 #Pacman and yaourt inspired tool
 
 #TODO another switch to check for CURRENT, then skip freebsd-update
@@ -48,35 +48,8 @@ else
 fi
 
 
-if [ -e "/etc/defaults/pcbsd" ]
-then
-	echo ''
-	echo 'running PCBSD'
-	echo ''
-	echo '/usr/local/bin/pc-updatemanager check'
-	/usr/local/bin/pc-updatemanager check
-	echo ''
-	echo '/usr/local/bin/pc-updatemanager pkgcheck'
-	/usr/local/bin/pc-updatemanager pkgcheck
-	echo ''
 
-	echo ''
-	echo 'pkg update'
-	pkg update
-	echo ''
-	echo 'pkg upgrade'
-	pkg upgrade
-	echo ''
-
-	echo ''
-	echo 'portsnap fetch update'
-	portsnap fetch update
-	echo ''
-	echo 'Ports has newer versions of the following software:'
-	portmaster -L | grep New
-	echo ''
-
-elif [ -e "/etc/defaults/trueos" ]
+if [ -e "/etc/defaults/trueos" ]
 then
 	echo ''
 	echo 'running TrueOS'
