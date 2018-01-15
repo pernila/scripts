@@ -3,11 +3,14 @@
 #Syyua.sh version 0.5.0
 #Pacman and yaourt inspired tool
 
-#TODO another switch to check for CURRENT, then skip freebsd-update
+#feature? another switch to check for CURRENT?
+#add support for printing ports UPDATING lines for AFFECTING. 
+#  limit these to show only the last 2-4 weeks?
 
-	echo ''
-echo 'Syyua update script'
-echo 'inspired by pacman and yaourt'
+#add these to Version/Verbose output
+#	echo ''
+#echo 'Syyua update script'
+#echo 'inspired by pacman and yaourt'
 	echo ''
 
 
