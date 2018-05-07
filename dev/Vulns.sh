@@ -1,7 +1,9 @@
 #!/bin/sh
-#tommi 13.09.2016
-#Vulns.sh version 0.2
+#tommi 13.09.201
+#Vulns.sh version 0.2.1
 #pkg audit -F tool
+
+#Add a note that base-audit doesn't work on CURRENT? or does it?
 
 echo ''
 echo 'Vulnerabilities in base version:' $(freebsd-version)
